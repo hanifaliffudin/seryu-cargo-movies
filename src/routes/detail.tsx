@@ -1,0 +1,112 @@
+import {
+  getImageUrl,
+  IMAGE_SIZE_ORIGINAL,
+  IMAGE_SIZE_SMALL,
+} from "../config/constant";
+
+const Detail = () => {
+  const data = {
+    adult: false,
+    backdrop_path: "/nb3xI8XI3w4pMVZ38VijbsyBqP4.jpg",
+    belongs_to_collection: null,
+    budget: 100000000,
+    genres: [
+      {
+        id: 18,
+        name: "Drama",
+      },
+      {
+        id: 36,
+        name: "History",
+      },
+    ],
+    homepage: "http://www.oppenheimermovie.com",
+    id: 872585,
+    imdb_id: "tt15398776",
+    origin_country: ["US"],
+    original_language: "en",
+    original_title: "Oppenheimer",
+    overview:
+      "The story of J. Robert Oppenheimer's role in the development of the atomic bomb during World War II.",
+    popularity: 161.388,
+    poster_path: "/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
+    production_companies: [
+      {
+        id: 9996,
+        logo_path: "/3tvBqYsBhxWeHlu62SIJ1el93O7.png",
+        name: "Syncopy",
+        origin_country: "GB",
+      },
+      {
+        id: 33,
+        logo_path: "/8lvHyhjr8oUKOOy2dKXoALWKdp0.png",
+        name: "Universal Pictures",
+        origin_country: "US",
+      },
+      {
+        id: 507,
+        logo_path: "/aRmHe6GWxYMRCQljF75rn2B9Gv8.png",
+        name: "Atlas Entertainment",
+        origin_country: "US",
+      },
+    ],
+    production_countries: [
+      {
+        iso_3166_1: "GB",
+        name: "United Kingdom",
+      },
+      {
+        iso_3166_1: "US",
+        name: "United States of America",
+      },
+    ],
+    release_date: "2023-07-19",
+    revenue: 952000000,
+    runtime: 181,
+    spoken_languages: [
+      {
+        english_name: "Dutch",
+        iso_639_1: "nl",
+        name: "Nederlands",
+      },
+      {
+        english_name: "English",
+        iso_639_1: "en",
+        name: "English",
+      },
+    ],
+    status: "Released",
+    tagline: "The world forever changes.",
+    title: "Oppenheimer",
+    video: false,
+    vote_average: 8.095,
+    vote_count: 8790,
+  };
+  return (
+    <div>
+      <div className="relative h-[400px]">
+        <img
+          className="w-full max-h-[400px] object-cover object-top brightness-50"
+          src={getImageUrl(data.backdrop_path, IMAGE_SIZE_ORIGINAL)}
+          alt=""
+        />
+        <div className="flex absolute top-1/2 transform -translate-y-1/2 left-20 text-white">
+          <img
+            className="w-[200px] h-[299.54px] object-cover  rounded-md"
+            src={getImageUrl(data.poster_path, IMAGE_SIZE_SMALL)}
+            alt=""
+          />
+          asdsadsada
+          {/* <div>
+            cok
+            <h1>
+              {data.original_title} ({data.release_date.slice(0, 4)})
+            </h1>
+          </div> */}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Detail;
