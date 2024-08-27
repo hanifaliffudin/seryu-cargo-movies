@@ -7,6 +7,8 @@ import Home from "./routes/home";
 import Watchlist from "./routes/watchlist";
 import Favorite from "./routes/favorite";
 import Detail from "./routes/detail";
+import Search from "./routes/search";
+import { WatchlistProvider } from "./context/LocalStorageContext";
 
 const router = createBrowserRouter([
   {
@@ -29,12 +31,18 @@ const router = createBrowserRouter([
         path: "/movie/:id",
         element: <Detail />,
       },
+      {
+        path: "/search",
+        element: <Search />,
+      },
     ],
   },
 ]);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <WatchlistProvider>
+      <RouterProvider router={router} />
+    </WatchlistProvider>
   </StrictMode>
 );
