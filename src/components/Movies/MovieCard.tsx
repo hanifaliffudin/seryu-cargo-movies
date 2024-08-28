@@ -18,9 +18,10 @@ const MovieCard = ({
   hideFavoriteIcon,
 }: MovieProps) => {
   const navigate = useNavigate();
-  const [accountId, setAccountId] = useOutletContext();
+  const accountId = sessionStorage.getItem("account_id");
   const [isBookmark, setIsBookmark] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [favorites, watchlist] = useOutletContext();
 
   const dispatch = useContext(WatchlistFavoritesDispatchContext);
 
@@ -99,7 +100,7 @@ const MovieCard = ({
       favoritesFromLocalStorage = JSON.parse(favoritesFromLocalStorage);
       if (favoritesFromLocalStorage?.includes(movie.id)) setIsFavorite(true);
     }
-  }, [movie.id]);
+  }, [movie.id, favorites, watchlist]);
 
   return (
     <div className="group min-w-[150px] md:min-h-[355px] md:min-w-[193px]">

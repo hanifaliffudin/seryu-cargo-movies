@@ -1,20 +1,27 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MovieCard from "../components/Movies/MovieCard";
 import { fetchWatchlist } from "../api/tmdb";
 import { Movie } from "../types/movie";
 import SkeletonListMovies from "../components/Movies/SkeletonListMovies";
-import { useOutletContext } from "react-router-dom";
+import { WatchlistFavoritesDispatchContext } from "../context/LocalStorageContext";
 
 const Watchlist = () => {
-  const [accountId, setAccountId] = useOutletContext();
+  const accountId = sessionStorage.getItem("account_id");
   const [watchlist, setWatchlist] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useContext(WatchlistFavoritesDispatchContext);
 
   const getWatchlist = async () => {
     setIsLoading(true);
     try {
       const res = await fetchWatchlist(accountId);
+
       setWatchlist(res);
+
+      dispatch({
+        type: "INIT_WATCHLIST",
+        payload: res.map((movie: Movie) => movie.id),
+      });
     } catch (error) {
       console.log(error);
     } finally {

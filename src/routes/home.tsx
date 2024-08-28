@@ -16,7 +16,7 @@ const Home = () => {
       const res = await fetchNowPlaying();
       setNowPlaying(res);
     } catch (error) {
-      alert(error);
+      console.error(error);
     } finally {
       setIsLoadingNowPlaying(false);
     }
@@ -28,7 +28,7 @@ const Home = () => {
       const res = await fetchTopRated();
       setTopRated(res);
     } catch (error) {
-      alert(error);
+      console.error(error);
     } finally {
       setIsLoadingTopRated(false);
     }

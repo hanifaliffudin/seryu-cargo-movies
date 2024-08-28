@@ -1,4 +1,4 @@
-import { useOutletContext, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import MovieCard from "../components/Movies/MovieCard";
 import {
   getImageUrl,
@@ -19,7 +19,7 @@ import SkeletonListMovies from "../components/Movies/SkeletonListMovies";
 
 const Detail = () => {
   const { id } = useParams();
-  const [accountId, setAccountId] = useOutletContext();
+  const accountId = sessionStorage.getItem("account_id");
   const [detail, setDetail] = useState<Movie>();
   const [recommendations, setRecommendations] = useState([]);
   const [isBookmark, setIsBookmark] = useState(false);

@@ -1,15 +1,28 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify-icon/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ModalLogin from "../components/Auth/ModalLogin";
-import { fetchDetailAccount, fetchSessionId } from "../api/tmdb";
+import {
+  fetchDetailAccount,
+  fetchFavorites,
+  fetchSessionId,
+  fetchWatchlist,
+} from "../api/tmdb";
+import { WatchlistFavoritesDispatchContext } from "../context/LocalStorageContext";
+import { Movie } from "../types/movie";
 
 const Root = () => {
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
   const [openMenu, setOpenMenu] = useState(false);
-  const [accountId, setAccountId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [accountId, setAccountId] = useState(
+    sessionStorage.getItem("account_id")
+  );
+  const sessionId = sessionStorage.getItem("session_id");
+  const dispatch = useContext(WatchlistFavoritesDispatchContext);
+  const [watchlist, setWatchlist] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
   const getSessionId = async () => {
     setIsLoading(true);
@@ -33,7 +46,47 @@ const Root = () => {
       const res = await fetchDetailAccount(sessionId);
 
       setAccountId(res.id);
+      sessionStorage.setItem("account_id", res.id);
       sessionStorage.setItem("session_id", sessionId);
+
+      getWatchlist();
+      getFavorites();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getWatchlist = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetchWatchlist(accountId);
+
+      setWatchlist(res);
+
+      dispatch({
+        type: "INIT_WATCHLIST",
+        payload: res.map((movie: Movie) => movie.id),
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getFavorites = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetchFavorites(accountId);
+
+      setFavorites(res);
+
+      dispatch({
+        type: "INIT_FAVORITES",
+        payload: res.map((movie: Movie) => movie.id),
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -48,12 +101,11 @@ const Root = () => {
   };
 
   useEffect(() => {
-    const sessionId = sessionStorage.getItem("session_id");
     if (sessionId) {
       getAccountId(sessionId);
       document.body.classList.remove("overflow-y-hidden");
     }
-  }, []);
+  }, [sessionId, accountId]);
 
   return (
     <>
@@ -97,6 +149,10 @@ const Root = () => {
               onClick={() => {
                 setOpenMenu(false);
                 sessionStorage.removeItem("session_id");
+                sessionStorage.removeItem("account_id");
+                localStorage.removeItem("favorites");
+                localStorage.removeItem("watchlist");
+                navigate("/");
                 navigate(0);
               }}
               className="h-6"
@@ -113,7 +169,7 @@ const Root = () => {
 
       {/* main */}
       <main>
-        <Outlet context={[accountId, setAccountId]} />
+        <Outlet context={[favorites, watchlist]} />
       </main>
 
       {!accountId && (

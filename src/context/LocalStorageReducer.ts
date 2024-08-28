@@ -74,6 +74,22 @@ export const listReducer = (state, action) => {
       return { ...state, favorites: newFavorites };
     }
 
+    case LIST_ACTIONS.INIT_WATCHLIST: {
+      const watchlist = action.payload;
+
+      localStorage.setItem("watchlist", JSON.stringify(watchlist));
+
+      return { ...state, watchlist: watchlist };
+    }
+
+    case LIST_ACTIONS.INIT_FAVORITES: {
+      const favorites = action.payload;
+
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+
+      return { ...state, favorites: favorites };
+    }
+
     default:
       return state;
   }
