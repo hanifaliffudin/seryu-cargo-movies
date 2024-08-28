@@ -21,7 +21,7 @@ const MovieCard = ({
   const accountId = sessionStorage.getItem("account_id");
   const [isBookmark, setIsBookmark] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [favorites, watchlist] = useOutletContext();
+  const [favorites, watchlist, setOpenToast] = useOutletContext();
 
   const dispatch = useContext(WatchlistFavoritesDispatchContext);
 
@@ -60,7 +60,7 @@ const MovieCard = ({
         }
       }
     } catch (error) {
-      console.log(error);
+      setOpenToast({ isOpen: true, message: error.message });
     }
   };
 
@@ -82,7 +82,7 @@ const MovieCard = ({
         }
       }
     } catch (error) {
-      console.log(error);
+      setOpenToast({ isOpen: true, message: error.message });
     }
   };
 

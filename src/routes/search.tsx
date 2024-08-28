@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 import { fetchSearch } from "../api/tmdb";
 import MovieCard from "../components/Movies/MovieCard";
 import SkeletonListMovies from "../components/Movies/SkeletonListMovies";
@@ -9,6 +9,7 @@ const Search = () => {
   const keyword = searchParams.get("title") || "";
   const [listMovies, setListMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [favorites, watchlist, setOpenToast] = useOutletContext();
 
   const getSearched = async (keyword: string) => {
     setIsLoading(true);
@@ -16,7 +17,7 @@ const Search = () => {
       const res = await fetchSearch(keyword);
       setListMovies(res);
     } catch (error) {
-      console.log(error);
+      setOpenToast({ isOpen: true, message: error.message });
     } finally {
       setIsLoading(false);
     }

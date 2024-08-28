@@ -4,12 +4,14 @@ import { fetchFavorites } from "../api/tmdb";
 import { Movie } from "../types/movie";
 import SkeletonListMovies from "../components/Movies/SkeletonListMovies";
 import { WatchlistFavoritesDispatchContext } from "../context/LocalStorageContext";
+import { useOutletContext } from "react-router-dom";
 
 const Favorite = () => {
   const accountId = sessionStorage.getItem("account_id");
   const [favorites, setFavorites] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useContext(WatchlistFavoritesDispatchContext);
+  const [_, watchlist, setOpenToast] = useOutletContext();
 
   const getFavorites = async () => {
     setIsLoading(true);
@@ -23,7 +25,7 @@ const Favorite = () => {
         payload: res.map((movie: Movie) => movie.id),
       });
     } catch (error) {
-      console.log(error);
+      setOpenToast({ isOpen: true, message: error.message });
     } finally {
       setIsLoading(false);
     }

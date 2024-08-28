@@ -10,6 +10,7 @@ import {
 } from "../api/tmdb";
 import { WatchlistFavoritesDispatchContext } from "../context/LocalStorageContext";
 import { Movie } from "../types/movie";
+import ToastError from "../components/UI/ToastError";
 
 const Root = () => {
   const navigate = useNavigate();
@@ -23,6 +24,10 @@ const Root = () => {
   const dispatch = useContext(WatchlistFavoritesDispatchContext);
   const [watchlist, setWatchlist] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [openToast, setOpenToast] = useState({
+    isOpen: false,
+    message: "",
+  });
 
   const getSessionId = async () => {
     setIsLoading(true);
@@ -109,6 +114,11 @@ const Root = () => {
 
   return (
     <>
+      {/* toast */}
+      {openToast.isOpen && (
+        <ToastError setOpenToast={setOpenToast} message={openToast.message} />
+      )}
+
       {/* navbar */}
       <nav className="bg-[#0EA5E9] text-white ">
         <div className="flex justify-between items-center h-20 px-8 md:px-10 lg:px-16">
@@ -169,7 +179,7 @@ const Root = () => {
 
       {/* main */}
       <main>
-        <Outlet context={[favorites, watchlist]} />
+        <Outlet context={[favorites, watchlist, setOpenToast]} />
       </main>
 
       {!accountId && (

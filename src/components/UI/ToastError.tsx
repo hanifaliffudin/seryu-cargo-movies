@@ -1,4 +1,4 @@
-const ToastError = ({ message = "Failed to fetch" }) => {
+const ToastError = ({ setOpenToast, message = "Failed to fetch" }) => {
   return (
     <div
       id="toast-warning"
@@ -19,6 +19,7 @@ const ToastError = ({ message = "Failed to fetch" }) => {
       </div>
       <div className="ms-3 text-sm font-normal text-white">{message}</div>
       <button
+        onClick={() => setOpenToast({ isOpen: false })}
         type="button"
         className="ms-auto -mx-1.5 -my-1.5 text-white hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8"
         data-dismiss-target="#toast-warning"
@@ -34,9 +35,9 @@ const ToastError = ({ message = "Failed to fetch" }) => {
         >
           <path
             stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
             d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
           />
         </svg>

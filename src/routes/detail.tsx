@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import MovieCard from "../components/Movies/MovieCard";
 import {
   getImageUrl,
@@ -27,8 +27,8 @@ const Detail = () => {
   const [isLoadingRecommendations, setIsLoadingRecommendations] =
     useState(false);
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
-
   const dispatch = useContext(WatchlistFavoritesDispatchContext);
+  const [favorites, watchlist, setOpenToast] = useOutletContext();
 
   // call dispatch to update watchlist/favorites in local storage
   const addToWatchlistLocalStorage = () => {
@@ -61,7 +61,7 @@ const Detail = () => {
       const res = await fetchMovieDetail(id);
       setDetail(res);
     } catch (error) {
-      console.log(error);
+      setOpenToast({ isOpen: true, message: error.message });
     } finally {
       setIsLoadingDetail(false);
     }
@@ -74,7 +74,7 @@ const Detail = () => {
       const res = await fetchRecommendations(id);
       setRecommendations(res);
     } catch (error) {
-      console.log(error);
+      setOpenToast({ isOpen: true, message: error.message });
     } finally {
       setIsLoadingRecommendations(false);
     }
@@ -98,7 +98,7 @@ const Detail = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      setOpenToast({ isOpen: true, message: error.message });
     }
   };
 
@@ -120,7 +120,7 @@ const Detail = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      setOpenToast({ isOpen: true, message: error.message });
     }
   };
 
