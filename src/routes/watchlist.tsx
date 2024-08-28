@@ -33,6 +33,9 @@ const Watchlist = () => {
 
   useEffect(() => {
     getWatchlist();
+
+    const interval = setInterval(getWatchlist, 120000);
+    return () => clearInterval(interval);
   }, []);
 
   return (

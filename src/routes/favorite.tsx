@@ -33,6 +33,9 @@ const Favorite = () => {
 
   useEffect(() => {
     getFavorites();
+
+    const interval = setInterval(getFavorites, 120000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
